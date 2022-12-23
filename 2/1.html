@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>1</title>
+  </head>
+  <body>
+    <input type="text" id="a">
+    <input type="text" id="b">
+    <input type="text" id="c">
+    <button type="button" id="buttom">Расчитать</button>
+
+    <script>
+        
+        document.querySelector("#buttom").onclick = function(){
+          let a = document.querySelector('#a').value,
+            b = document.querySelector('#b').value,
+            c = document.querySelector('#c').value,
+            arr = kvur(a, b, c),
+            d = arr[0];
+        console.log("Дискриминант: " + d);
+        console.log(
+            d < 0
+                ? "Корней нет"
+                : d === 0
+                    ? "Один корень: " + arr[1]
+                    : `Два корня: ${arr[1]} и ${arr[2]}`
+          );
+        }
+ 
+        /*
+         let a = document.querySelector('#i1')
+        let b = document.querySelector('#i2')
+        let c = document.querySelector('#i3')
+        let form = document.querySelector('.form');
+        let D = (b*b) - (4*a*c);
+        let x1 = ((2-1)*b + Math.sqrt(D))/(2 * a);
+        let x2 = ((2-1)*b - Math.sqrt(D))/(2 * a);
+
+        form.onsubmit = function(evt) {
+        evt.preventDefault();
+        if(D>0){
+          console.log("x1")
+          console.log(x1)
+          console.log("x2")
+          console.log(x2)
+        }else if(D==0){
+          console.log("x")
+          console.log(x1)
+        }
+        };
+         */
+        function kvur(a, b, c) {
+            let discr = (a, b, c) => b * b - 4 * a * c;
+            let d = discr(a, b, c);
+            if (d < 0) return [d];
+ 
+            let x1 = (-b + Math.sqrt(d)) / (2 * a),
+                x2 = (-b - Math.sqrt(d)) / (2 * a);
+ 
+            return [d, x1, x2];
+        }
+    </script>
+
+
+  </body>
+</html>
