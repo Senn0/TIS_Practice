@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>2</title>
+  </head>
+  <body>
+    <input type="text" id="a">
+    <input type="text" id="b">
+    <input type="text" id="c">
+    <button type="button" id="buttom">Расчитать</button>
+
+    <script>
+        
+        document.querySelector("#buttom").onclick = function(){
+          let a = document.querySelector('#a').value,
+            b = document.querySelector('#b').value,
+            c = document.querySelector('#c').value,
+            max = a;
+            cv1 = 0;
+            cv2 = 0;
+
+          if(a>b && a>c){
+            max = a;
+            cv1 = b**2;
+            cv2 = c**2;
+          }else if (b>a && b>c){
+            max = b
+            cv1 = a**2;
+            cv2 = c**2;
+          }else{
+            max = c
+            cv1 = a**2;
+            cv2 = b**2;
+          }
+
+          if(max**2 == cv1 + cv2){
+            console.log(true)
+          }else{
+            console.log(false)
+          }
+        }
+    </script>
+
+
+  </body>
+</html>

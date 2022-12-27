@@ -27,29 +27,7 @@
                     : `Два корня: ${arr[1]} и ${arr[2]}`
           );
         }
- 
-        /*
-         let a = document.querySelector('#i1')
-        let b = document.querySelector('#i2')
-        let c = document.querySelector('#i3')
-        let form = document.querySelector('.form');
-        let D = (b*b) - (4*a*c);
-        let x1 = ((2-1)*b + Math.sqrt(D))/(2 * a);
-        let x2 = ((2-1)*b - Math.sqrt(D))/(2 * a);
 
-        form.onsubmit = function(evt) {
-        evt.preventDefault();
-        if(D>0){
-          console.log("x1")
-          console.log(x1)
-          console.log("x2")
-          console.log(x2)
-        }else if(D==0){
-          console.log("x")
-          console.log(x1)
-        }
-        };
-         */
         function kvur(a, b, c) {
             let discr = (a, b, c) => b * b - 4 * a * c;
             let d = discr(a, b, c);

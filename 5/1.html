@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Угадай ячейки</title>
+    <style>
+        body {
+        margin: 0 auto;
+        max-width: 600px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        text-align: center;
+        }
+
+        .restart-btn {
+        margin-bottom: 32px;
+        }
+
+        td {
+        width: 64px;
+        height: 64px;
+        background-color: #fff;
+        border: 1px solid #000;
+        }
+
+        td.fail {
+        background-color: tomato;
+        }
+
+        td.success {
+        background-color: lightgreen;
+        }
+
+    </style>
+  </head>
+  <body>
+    <h1>Угадайте 10 ячеек</h1>
+    <p class="result-title"></p>
+    <button class="restart-btn">Начать заново</button>
+
+    <script>
+
+    window.addEventListener("load", () => {
+    const PLAYER_MAX_TRIES = 100;
+    const MAX_RANDOM_CELLS = 10;
+    const TABLE_ROWS = 10;
+    const TABLE_CELLS = 10;
+
+    let gameIsFinished = false;
+    let tries = 0;
+    let correctCells = 0;
+
+    const isCellClicked = (cell) =>
+        cell.classList.contains("fail") || cell.classList.contains("success");
+
+    const onCellClick = (onWin, onLose) => (e) => {
+        if (gameIsFinished || isCellClicked(e.currentTarget)) return;
+        if (e.currentTarget.classList.contains("random-cell")) {
+        e.currentTarget.classList.add("success");
+        correctCells++;
+        } else {
+        e.currentTarget.classList.add("fail");
+        tries++;
+        }
+
+        if (correctCells === MAX_RANDOM_CELLS) {
+        onWin();
+        } else if (tries === PLAYER_MAX_TRIES) {
+        onLose();
+        }
+    };
+
+    const onWin = () => {
+        const result = document.querySelector(".result-title");
+
+        result.textContent = "Вы победили! Поздравляем!";
+
+        gameIsFinished = true;
+    };
+
+    const onFail = () => {
+        const result = document.querySelector(".result-title");
+
+        result.textContent = "Вы проиграли! Сочувствуем :(";
+
+        gameIsFinished = true;
+    };
+
+    const onRestart = () => init();
+
+    const createTable = (rows, cells) => {
+        const oldTable = document.querySelector("table");
+
+        if (oldTable) {
+        oldTable.remove();
+        }
+
+        const table = document.createElement("table");
+
+        for (let i = 0; i < rows; i++) {
+        const tr = document.createElement("tr");
+
+        for (let j = 0; j < cells; j++) {
+            const td = document.createElement("td");
+
+            td.addEventListener("click", onCellClick(onWin, onFail));
+
+            tr.append(td);
+        }
+
+        table.append(tr);
+        }
+
+        document.body.append(table);
+    };
+
+    const setRandomCells = () => {
+        const td = document.querySelectorAll("td");
+
+        let randomCells = 0;
+
+        while (randomCells < MAX_RANDOM_CELLS) {
+        const randomIndex = Math.floor(Math.random() * (td.length + 1));
+
+        if (
+            td[randomIndex] &&
+            !td[randomIndex].classList.contains("random-cell")
+        ) {
+            td[randomIndex].classList.add("random-cell");
+            randomCells++;
+        }
+        }
+    };
+
+    const init = () => {
+        const result = document.querySelector(".result-title");
+
+        result.textContent = "";
+
+        createTable(TABLE_ROWS, TABLE_CELLS);
+        setRandomCells();
+
+        tries = 0;
+        correctCells = 0;
+        gameIsFinished = false;
+    };
+
+    const restartBtn = document.querySelector(".restart-btn");
+
+    restartBtn.addEventListener("click", onRestart);
+
+    init();
+    });
+
+    </script>
+  </body>
+</html>
