@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гороскоп</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+    }
+
+    input[type="text"]{
+        width: 150px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        background-color: cyan;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+    <label>Сегодня<input type="radio" name="a" value="today" checked></label>
+    <label>Завтра<input type="radio" name="a" value="tomorrow"></label>
+    <label>После завтра<input type="radio" name="a" value="dayAfTm"></label>
+    <input type="text" id='inp' placeholder="мм.дд">
+    <h1 id="title"></h1>
+    <h2 id='desc'></h2>
+    <p id="result"></p>
+</div>
+
+<script>
+    const data = {
+        Aries: [A1, A2, A3],
+        Taurus: ['Taurus-data1', 'Taurus-data2', 'Taurus-data3'],
+        Gemini: ['Gemini-data1', 'Gemini-data2', 'Gemini-data3'],
+        Cancer: ['Cancer-data1', 'Cancer-data2', 'Cancer-data3'],
+        Leo: ['Leo-data1', 'Leo-data2', 'Leo-data3'],
+        Virgo: ['Virgo-data1', 'Virgo-data2', 'Virgo-data3'],
+        Libra: ['Libra-data1', 'Libra-data2', 'Libra-data3'],
+        Scorpio: ['Scorpio-data1', 'Scorpio-data2', 'Scorpio-data3'],
+        Sagitarius: ['Sagitarius-data1', 'Sagitarius-data2', 'Sagitarius-data3'],
+        Capricorn: ['Capricorn-data1', 'Capricorn-data2', 'Capricorn-data3'],
+        Aquarius: ['Aquarius-data1', 'Aquarius-data2', 'Aquarius-data3'],
+        Pisces: ['Pisces-data1', 'Pisces-data2', 'Pisces-data3'],
+        Uncorrect: ['Некоректная дата рождения']
+    };
+    let inp = document.querySelector('#inp');
+    let A1 = 'Постарайтесь не сердиться и не расстраиваться, если что-то пойдет не по плану. У вас обязательно будет шанс осуществить задуманное раньше, пусть и не так быстро и просто, как хотелось бы. Дождитесь благоприятного момента, это позволит сэкономить немало сил.',
+        A2 = 'Сохранять спокойствие сегодня будет немного труднее, чем обычно. День принесет много необычных событий, удивительных встреч и странных совпадений. Не исключено, что из-за них придется резко изменить планы, и это заставит нервничать даже Овнов, которые обычно настроены исключительно оптимистично.'
+
+    inp.addEventListener('keydown', handlerKeydown);
+
+    function handlerKeydown(event) {
+        let userBirhday = inp.value;
+        if (event.key == 'Enter') {
+            let str = userBirhday.slice(0, 5);
+            if (str >= '03.21' && str <= '04.19') {
+                useData('Aries');
+            } else if (str >= '04.20' && str <= '05.20') {
+                useData('Taurus');
+            } else if (str >= '05.21' && str <= '06.20') {
+                useData('Gemini');
+            } else if (str >= '06.21' && str <= '07.22') {
+                useData('Cancer');
+            } else if (str >= '07.23' && str <= '08.22') {
+                useData('Leo');
+            } else if (str >= '08.23' && str <= '09.22') {
+                useData('Virgo');
+            } else if (str >= '09.23' && str <= '10.22') {
+                useData('Libra');
+            } else if (str >= '10.23' && str <= '11.21') {
+                useData('Scorpio');
+            } else if (str >= '11.22' && str <= '12.21') {
+                useData('Sagitarius');
+            } else if (str >= '02.19' && str <= '03.20') {
+                useData('Pisces');
+            } else if (str >= '01.20' && str <= '02.18') {
+                useData('Aquarius');
+            } else if ((str >= '12.21' && str <= '12.31') || (str >= '01.01' && str <= '01.19')) {
+                useData('Capricorn');
+            }else {
+                useData('Uncorrect');
+            }
+        }
+
+    };
+
+
+
+    function useData(name) {
+        let res = document.querySelector('#result');
+        let title = document.querySelector('#title');
+        title.innerHTML = name;
+        let radios = document.querySelectorAll('input[type = "radio"]');
+
+
+        for (let radio of radios) {
+            if (radio.checked) {
+                let desc = document.querySelector('#desc');
+                let date = new Date();
+                let val = radio.value;
+                switch (val) {
+                    case 'today':
+                        desc.innerHTML = `Сегодня ${addDate(date)}`;
+                        res.innerHTML = data[name][0];
+                        break;
+                    case 'tomorrow':
+                        date.setDate(date.getDate() + 1);
+                        desc.innerHTML = `Завтра ${addDate(date)}`;
+                        res.innerHTML = data[name][1];
+                        break;
+                    case 'dayAfTm':
+                        date.setDate(date.getDate() + 2);
+                        desc.innerHTML = `После завтра ${addDate(date)}`;
+                        res.innerHTML = data[name][2];
+                        break;
+                }
+
+            }
+        }
+
+    }
+
+    function addDate(date) {
+        return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${date.getFullYear()}`
+    }
+
+    function addZero(num) {
+        return num <= 9 ? num = '0' + num : num;
+    }
+
+
+
+</script>
+</body>
+
+</html>
